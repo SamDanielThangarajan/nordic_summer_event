@@ -1,1 +1,19 @@
-Initial planning 
+Initial Planning
+
+1. study existing systems
+2. Frame usecase
+3. Frame actors and communication entries to the system
+4. Study about the technologies to be used.[May be not needed]
+5. Coding [pure demoable code]
+6. Presentable, so clear and promotional
+
+
+Low prio
+1. Production ready code
+2. Effeciency
+
+Demo Idea:
+Don't implement the full system, but just few services... no map... 
+just few seat numbers may be, few actors.... 
+
+May be move the people from one seat to another seat...
