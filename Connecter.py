@@ -2,6 +2,7 @@
 
 import re
 import json
+import time
 
 providers_g = {}
 consumers_g = {}
@@ -21,20 +22,16 @@ def test_populate_consumers(id,item,quantity,location):
     global consumers_g
     entry = Entry('consumer',id,item,quantity,location)
     if item+'-'+location in consumers_g:
-        print 'Appending a new entry'
         consumers_g[item+'-'+location].append(entry)
     else:
-        print 'creating a new entry'
         consumers_g[item+'-'+location] = [entry]
 
 def test_populate_producers(id,item,quantity,location):
     global providers_g
     entry = Entry('producer',id,item,quantity,location)
     if item+'-'+location in providers_g:
-        print 'Appending a new entry'
         providers_g[item+'-'+location].append(entry)
     else:
-        print 'creating a new entry'
         providers_g[item+'-'+location] = [entry]
 
 #####################################################
@@ -56,7 +53,30 @@ class Pool:
 
 
 
-if __name__ == "__main__":
+
+def main():
+
+
+    global providers_g
+    global consumers_g
+
+    providers_g = {}
+    consumers_g = {}
+
+    jdata = open('./inventory.txt')
+    data = json.load(jdata)
+
+    entries = data['entries']
+
+    for entry in entries:
+        if entry['type'] == 'provider':
+            test_populate_producers(entry['id'],entry['item'],entry['quantity'],entry['location'])
+        else:
+            test_populate_consumers(entry['id'],entry['item'],entry['quantity'],entry['location'])
+
+
+    
+    """
     test_populate_consumers('A','food',5,'zonea')
     test_populate_consumers('B','cloths',5,'zonea')
     test_populate_consumers('C','food',5,'zonea')
@@ -65,7 +85,7 @@ if __name__ == "__main__":
     test_populate_producers('P2','food',5,'zonea')
     test_populate_producers('P2','cloths',5,'zonea')
 
-
+    """
     """
     Pool - Food-zonea
       - Group-Demand { A,C }
@@ -81,7 +101,7 @@ if __name__ == "__main__":
             pools[grp_name] = Pool(consumers_g[grp_name],providers_g[grp_name])
 
     for grp_name in pools.keys():
-        print grp_name
+        print 'Pool : ' + grp_name
         print ''
         pool = pools[grp_name]
         consumers = pool.d_groups
@@ -93,7 +113,13 @@ if __name__ == "__main__":
                 provid_list.append(producer.id)
             print consumer.id + '--->' + str(provid_list)
 
+        print ''
+        print '----------------------------------------'
 
+if __name__ == "__main__":
+    while True:
+        main()
+        time.sleep(2)
 
 
 
