@@ -1,7 +1,7 @@
 {
-   type: "provider",
-   id: 8348347,   // Unique id.
-   item: manual labor
-   quantity: 3378
-   location: "chenai_south"
+   "type": "provider",
+   "id": 8348347,
+   "item": "manual labor",
+   "quantity": 3378,
+   "location": "chenai_south"
 }
