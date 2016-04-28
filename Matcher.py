@@ -7,7 +7,8 @@ providers_g = {}
 consumers_g = {}
 
 class Entry:
-    def __init__(self,type,id,item,quantity,location):
+    def __init__(self,key,type,id,item,quantity,location):
+        self.key = key
         self.type = type
         self.id = id
         self.item = item
