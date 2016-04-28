@@ -11,12 +11,25 @@ consumers_g = {}
 ### Entry
 ###
 class Entry:
-    def __init__(self,type,id,item,quantity,location):
+    def __init__(self,key,type,id,item,quantity,location):
+        self.key = key
         self.type = type
         self.id = id
         self.item = item
         self.quantity = quantity
         self.location = location
+
+    def dict(self):
+        d = { "key": self.key, 
+              "type": self.type, 
+              "id": self.id, 
+              "item": self.item, 
+              "quantity": self.quantity, 
+              "location": self.location }
+        return d
+
+    def json(self):
+        return json.dumps(self.dict())
 
 def test_populate_consumers(id,item,quantity,location):
     global consumers_g

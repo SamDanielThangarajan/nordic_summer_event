@@ -7,7 +7,7 @@ import names
 import random
 import argparse
 
-import Matcher
+import Connecter
 
 provider_role = 'provider'
 consumer_role = 'consumer'
@@ -104,7 +104,7 @@ def generate_initial_inventory(subscribers):
                 digest = generate_sha1_id(provider_role, 
                                           subscriber['phone'],
                                           item)
-                entry = Matcher.Entry(digest,
+                entry = Connecter.Entry(digest,
                                       provider_role,
                                       subscriber['phone'],
                                       item,
@@ -117,7 +117,7 @@ def generate_initial_inventory(subscribers):
             digest = generate_sha1_id(consumer_role,
                                       subscriber['phone'],
                                       item)
-            entry = Matcher.Entry(digest,
+            entry = Connecter.Entry(digest,
                                   consumer_role,
                                   subscriber['phone'],
                                   item,
