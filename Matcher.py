@@ -15,6 +15,13 @@ class Entry:
         self.quantity = quantity
         self.location = location
 
+    def dict(self):
+        d = { "key": self.key, "type": self.type, "id": self.id, "item": self.item, "quantity": self.quantity, "location": self.location }
+        return d
+
+    def json(self):
+        return json.dumps(self.dict())
+
 
 def parse_json():
     global providers_g
