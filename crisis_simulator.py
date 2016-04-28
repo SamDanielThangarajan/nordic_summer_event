@@ -46,7 +46,7 @@ location  = [ "Adambakkam", "Adyar", "Alandur", "Alwarpet", "Alwarthirunagar",
 def parseArgs():
    parser = argparse.ArgumentParser()
    parser.add_argument('-u', '--number-of-users', dest='number_users', action='store',
-                            default=100, help='Total number of users for the simulation (default: 10)')
+                            default=100, type=int, help='Total number of users for the simulation (default: 10)')
    parser.add_argument('-s', '--seed', dest='seed', action='store',
                             help='Seed for the randomizer.')
    parser.add_argument('-f', '--json-file', dest='inventory_file', action='store',
@@ -110,13 +110,14 @@ def generate_initial_inventory(subscribers):
                 inventory['entries'].append( entry.dict() )
 
         if is_subscriber_in_need:
+            item = random.choice(item_list)
             digest = generate_sha1_id(consumer_role,
                                       subscriber['phone'],
                                       item)
             entry = Matcher.Entry(digest,
                                   consumer_role,
                                   subscriber['phone'],
-                                  random.choice(item_list),
+                                  item,
                                   random.randint(1,10),
                                   subscriber_current_location)
             inventory['entries'].append( entry.dict() )
