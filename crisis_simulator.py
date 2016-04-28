@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import sha
 import json
 import time
 import names
@@ -77,11 +78,14 @@ def generate_phone_number():
     sn  = random.randint(0,999999)
     return "%s%d%06d" % (cc, ndc, sn)
 
-
 def generate_offer():
     sample_size = random.randint(1, len(item_list))
     return random.sample(item_list, sample_size)
 
+def generate_sha1_id(role, phone, item):
+    input_seed = "%s:%s:%s" % (role, phone, item)
+    digest_gen = sha.new(input_seed)
+    return digest_gen.hexdigest()
 
 def generate_initial_inventory(subscribers):
     inventory = {'entries': []}
@@ -94,7 +98,10 @@ def generate_initial_inventory(subscribers):
 
         if is_subscriber_offering:
             for item in subscriber['offered_services']:
-                entry = Matcher.Entry("identifier",
+                digest = generate_sha1_id(provider_role, 
+                                          subscriber['phone'],
+                                          item)
+                entry = Matcher.Entry(digest,
                                       provider_role,
                                       subscriber['phone'],
                                       item,
@@ -103,7 +110,10 @@ def generate_initial_inventory(subscribers):
                 inventory['entries'].append( entry.dict() )
 
         if is_subscriber_in_need:
-            entry = Matcher.Entry("identifier",
+            digest = generate_sha1_id(consumer_role,
+                                      subscriber['phone'],
+                                      item)
+            entry = Matcher.Entry(digest,
                                   consumer_role,
                                   subscriber['phone'],
                                   random.choice(item_list),
