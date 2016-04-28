@@ -12,7 +12,7 @@ import Matcher
 provider_role = 'provider'
 consumer_role = 'consumer'
 item_list = [ 'food', 'shelter', 'water', 'clothing', 'medical', 'manual labor', 'transport']
-location  = [ "Adambakkam", "Adyar", "Alandur", "Alwarpet", "Alwarthirunagar",
+locationdb= [ "Adambakkam", "Adyar", "Alandur", "Alwarpet", "Alwarthirunagar",
               "Ambattur", "Aminjikarai", "Anakaputhur", "Anna Nagar", "Annanur", "Arumbakkam",
               "Ashok Nagar", "Avadi", "Ayanavaram", "Besant Nagar", "Basin Bridge", "Chepauk",
               "Chetput", "Chintadripet", "Chitlapakkam", "Choolai", "Choolaimedu", "Chrompet",
@@ -42,11 +42,14 @@ location  = [ "Adambakkam", "Adyar", "Alandur", "Alwarpet", "Alwarthirunagar",
               "Tondiarpet", "United India Colony", "Vandalur", "Vadapalani", "Valasaravakkam",
               "Vallalar Nagar", "Vanagaram", "Velachery", "Villivakkam", "Virugambakkam",
               "Vyasarpadi", "Washermanpet", "West Mambalam" ]
+available_locations = []
 
 def parseArgs():
    parser = argparse.ArgumentParser()
    parser.add_argument('-u', '--number-of-users', dest='number_users', action='store',
                             default=100, type=int, help='Total number of users for the simulation (default: 10)')
+   parser.add_argument('-a', '--max-num-of-areas', dest='num_areas', action='store',
+                            default=5, type=int, help='Total number of users for the simulation (default: 10)')
    parser.add_argument('-s', '--seed', dest='seed', action='store',
                             help='Seed for the randomizer.')
    parser.add_argument('-f', '--json-file', dest='inventory_file', action='store',
@@ -94,7 +97,7 @@ def generate_initial_inventory(subscribers):
         is_subscriber_in_need  = random.random() < 0.70
         is_subscriber_offering = random.random() < 0.50
 
-        subscriber_current_location = random.choice(location)
+        subscriber_current_location = random.choice(available_locations)
 
         if is_subscriber_offering:
             for item in subscriber['offered_services']:
@@ -134,6 +137,9 @@ if __name__ == "__main__":
 
     # Set the seed to the one passed as an argument
     random.seed( options.seed )
+
+    # Define the available areas for the simulation
+    available_locations = random.sample(locationdb, options.num_areas)
 
     # Subscriber profile databse
     subscribers = generate_subscriber_subscribers( options.number_users )
