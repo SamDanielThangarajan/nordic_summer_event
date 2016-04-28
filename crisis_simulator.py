@@ -6,6 +6,8 @@ import names
 import random
 import argparse
 
+import Matcher
+
 provider_role = 'provider'
 consumer_role = 'consumer'
 item_list = [ 'food', 'shelter', 'water', 'clothing', 'medical', 'manual labor', 'transport']
@@ -91,19 +93,23 @@ def generate_initial_inventory(subscribers):
         subscriber_current_location = random.choice(location)
 
         if is_subscriber_offering:
-            for offer in subscriber['offered_services']:
-                inventory['entries'].append({'type': provider_role,
-                                             'id': subscriber['phone'],
-                                             'item': offer,
-                                             'quantity': random.randint(1,10),
-                                             'location': subscriber_current_location })
+            for item in subscriber['offered_services']:
+                entry = Matcher.Entry("identifier",
+                                      provider_role,
+                                      subscriber['phone'],
+                                      item,
+                                      random.randint(1,10),
+                                      subscriber_current_location)
+                inventory['entries'].append( entry.dict() )
 
         if is_subscriber_in_need:
-            inventory['entries'].append({'type': consumer_role,
-                                         'id': subscriber['phone'],
-                                         'item': random.choice(item_list),
-                                         'quantity': random.randint(1,10),
-                                         'location': subscriber_current_location })
+            entry = Matcher.Entry("identifier",
+                                  consumer_role,
+                                  subscriber['phone'],
+                                  random.choice(item_list),
+                                  random.randint(1,10),
+                                  subscriber_current_location)
+            inventory['entries'].append( entry.dict() )
     return inventory
 
 
