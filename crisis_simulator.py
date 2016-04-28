@@ -78,15 +78,17 @@ def generate_phone_number():
 
 def generate_offer():
     sample_size = random.randint(1, len(item_list))
-    return [ random.sample(item_list, sample_size) ]
+    return random.sample(item_list, sample_size)
 
 
 def generate_initial_inventory(subscribers):
     inventory = {'entries': []}
 
     for subscriber in subscribers:
-        is_subscriber_in_need  = random.random() > 0.6
-        is_subscriber_offering = random.random() > 0.6
+        is_subscriber_in_need  = random.random() < 0.70
+        is_subscriber_offering = random.random() < 0.50
+
+        subscriber_current_location = random.choice(location)
 
         if is_subscriber_offering:
             for offer in subscriber['offered_services']:
@@ -94,15 +96,14 @@ def generate_initial_inventory(subscribers):
                                              'id': subscriber['phone'],
                                              'item': offer,
                                              'quantity': random.randint(1,10),
-                                             'location': random.choice(location)
-                                             })
+                                             'location': subscriber_current_location })
 
         if is_subscriber_in_need:
             inventory['entries'].append({'type': consumer_role,
                                          'id': subscriber['phone'],
                                          'item': random.choice(item_list),
                                          'quantity': random.randint(1,10),
-                                         'location': random.choice(location) })
+                                         'location': subscriber_current_location })
     return inventory
 
 
@@ -128,7 +129,7 @@ if __name__ == "__main__":
         iteration = iteration + 1
 
         with open(options.inventory_file, 'w') as output_file:
-            json.dump(inventory, output_file)
+            json.dump(inventory, output_file, indent=4, sort_keys=True)
 
             simulate(iteration, subscribers, inventory)
 
