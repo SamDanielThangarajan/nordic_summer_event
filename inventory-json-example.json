@@ -1,7 +1,18 @@
 {
-   "type": "provider",
-   "id": 8348347,
-   "item": "manual labor",
-   "quantity": 3378,
-   "location": "chenai_south"
+   "entries" : [
+   {
+      "type": "provider",
+      "id": 8348347,
+      "item": "manual labor",
+      "quantity": 3378,
+      "location": "chenai_south"
+   },
+   {
+      "type": "consumer",
+      "id": 8348348,
+      "item": "Food",
+      "quantity": 100,
+      "location": "chenai_south"
+   }
+   ]
 }
