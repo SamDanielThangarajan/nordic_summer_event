@@ -33,7 +33,7 @@ class Entry:
 
 def test_populate_consumers(id,item,quantity,location):
     global consumers_g
-    entry = Entry('consumer',id,item,quantity,location)
+    entry = Entry('','consumer',id,item,quantity,location)
     if item+'-'+location in consumers_g:
         consumers_g[item+'-'+location].append(entry)
     else:
@@ -41,7 +41,7 @@ def test_populate_consumers(id,item,quantity,location):
 
 def test_populate_producers(id,item,quantity,location):
     global providers_g
-    entry = Entry('producer',id,item,quantity,location)
+    entry = Entry('','producer',id,item,quantity,location)
     if item+'-'+location in providers_g:
         providers_g[item+'-'+location].append(entry)
     else:
@@ -132,6 +132,7 @@ def main():
 if __name__ == "__main__":
     while True:
         main()
+        print 'end'
         time.sleep(2)
 
 

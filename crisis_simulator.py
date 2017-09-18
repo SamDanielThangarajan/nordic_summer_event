@@ -148,7 +148,7 @@ if __name__ == "__main__":
     inventory = generate_initial_inventory(subscribers)
 
     iteration = 0
-    while True:
+    while iteration<=1:
         iteration = iteration + 1
 
         with open(options.inventory_file, 'w') as output_file:
